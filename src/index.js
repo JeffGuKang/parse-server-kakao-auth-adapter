@@ -8,7 +8,7 @@ export class KakaoAuth {
     validateAuthData(authData, options) {
         return new Promise(function (resolve, reject) {
           https.get({
-              host: "https://kapi.kakao.com",
+              host: "kapi.kakao.com",
               path: "/v1/user/access_token_info",
               headers: {
                   'Authorization': 'Bearer ' + authData.access_token
