@@ -6,25 +6,12 @@ export class KakaoAuth {
     }
 
     validateAuthData(authData, options) {
-        return request("user/access_token_info", authData.access_token).then(response => {
-            if (response && response.id == authData.id) {
-              return;
-            }
-            throw new Parse.Error(Parse.Error.OBJECT_NOT_FOUND, 'Kakao auth is invalid for this user.');
-          });
-    }
-
-    validateAppId() {
-        return Promise.resolve();
-    }
-
-    request(path, bearer) {
         return new Promise(function (resolve, reject) {
           https.get({
               host: "https://kapi.kakao.com",
-              path: "/v1/" + path,
+              path: "/v1/user/access_token_info",
               headers: {
-                  'Authorization': 'Bearer ' + bearer
+                  'Authorization': 'Bearer ' + authData.access_token
               }
           }, function (res) {
             var data = '';
@@ -42,8 +29,18 @@ export class KakaoAuth {
           }).on('error', function () {
             reject('Failed to validate this access token with Kakao.');
           });
+        }).then(response => {
+          if (response && response.id == authData.id) {
+            return;
+          }
+          throw new Parse.Error(Parse.Error.OBJECT_NOT_FOUND, 'Kakao auth is invalid for this user.');
         });
-      }
+    }
+
+    validateAppId() {
+        return Promise.resolve();
+    }
+
 }
 
 export default KakaoAuth;
