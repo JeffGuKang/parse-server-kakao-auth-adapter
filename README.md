@@ -19,3 +19,9 @@ const parserServer = new ParseServer({
   }
 })
 ```
+
+### 3) Use it 
+
+```js
+const loggedIn = await Parse.User.logInWith('kakao', { authData: {id: 'KAKAO_ID', access_token: 'ACCESSTOKEN'} });
+```
